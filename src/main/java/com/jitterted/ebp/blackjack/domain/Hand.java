@@ -48,6 +48,7 @@ public class Hand {
     }
 
     public void drawFrom(Deck deck) {
+        // not allowed if busted, or if "done"
         cards.add(deck.draw());
     }
 
@@ -60,6 +61,7 @@ public class Hand {
     }
 
     boolean beats(Hand hand) {
+        // not allowed to even ASK this question if Busted
         return hand.value() < value();
     }
 
