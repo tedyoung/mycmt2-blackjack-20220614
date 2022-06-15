@@ -1,4 +1,6 @@
-package com.jitterted.ebp.blackjack;
+package com.jitterted.ebp.blackjack.adapter.in.console;
+
+import com.jitterted.ebp.blackjack.domain.Hand;
 
 import java.util.stream.Collectors;
 
@@ -7,7 +9,7 @@ import static org.fusesource.jansi.Ansi.ansi;
 public class ConsoleHand {
 
     // CONVERT DOMAIN object (Hand) to CONSOLE display String
-    static String displayFaceUpCard(Hand hand) {
+    public static String displayFaceUpCard(Hand hand) {
         return ConsoleCard.display(hand.faceUpCard());
     }
 
