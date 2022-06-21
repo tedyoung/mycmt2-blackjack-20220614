@@ -29,4 +29,32 @@ class GameOutcomeTest {
                 .isEqualByComparingTo(GameOutcome.PLAYER_BEATS_DEALER);
     }
 
+    @Test
+    public void playerDealtBlackjackUponInitialDealThenWinsBlackjack() throws Exception {
+        Game game = new Game(new StubDeck(Rank.TEN, Rank.EIGHT,
+                                          Rank.ACE, Rank.JACK));
+
+        game.initialDeal();
+
+        assertThat(game.determineOutcome())
+                .isEqualByComparingTo(GameOutcome.PLAYER_WINS_BLACKJACK);
+    }
+
+    @Test
+    public void playerGetsTo21NotBlackjackThenOnlyBeatsDealer() throws Exception {
+        Game game = new Game(new StubDeck(Rank.TEN, Rank.EIGHT,
+                                          Rank.FOUR, Rank.JACK,
+                                          Rank.SEVEN));
+        game.initialDeal();
+
+        game.playerHits();
+        game.playerStands();
+        game.dealerTurn();
+
+        assertThat(game.determineOutcome())
+                .isNotEqualByComparingTo(GameOutcome.PLAYER_WINS_BLACKJACK);
+    }
+
 }
+
+
