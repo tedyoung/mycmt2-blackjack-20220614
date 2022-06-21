@@ -95,5 +95,35 @@ class BlackjackControllerTest {
                 .isNotBlank();
     }
 
+    @Test
+    public void playerStandsResultsInRedirectToDonePageAndPlayerIsDone() throws Exception {
+        Game game = new Game(StubDeck.playerStandsAndBeatsDealer());
+        BlackjackController blackjackController = new BlackjackController(game);
+        blackjackController.startGame();
+
+        String redirectPage = blackjackController.standCommand();
+
+        assertThat(redirectPage)
+                .isEqualTo("redirect:/done");
+        assertThat(game.isPlayerDone())
+                .isTrue();
+    }
+
+    @Test
+    public void standResultsInDealerDrawingCardOnTheirTurn() throws Exception {
+        Deck dealerBeatsPlayerAfterDrawingAdditionalCardDeck =
+                new StubDeck(Rank.TEN,  Rank.QUEEN,
+                             Rank.NINE, Rank.FIVE,
+                                        Rank.SIX);
+        Game game = new Game(dealerBeatsPlayerAfterDrawingAdditionalCardDeck);
+        BlackjackController blackjackController = new BlackjackController(game);
+        blackjackController.startGame();
+
+        blackjackController.standCommand();
+
+        assertThat(game.dealerHand().cards())
+                .hasSize(3);
+    }
+
 
 }
