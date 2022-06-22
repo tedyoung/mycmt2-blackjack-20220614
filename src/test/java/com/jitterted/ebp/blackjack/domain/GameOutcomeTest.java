@@ -23,7 +23,6 @@ class GameOutcomeTest {
         game.initialDeal();
 
         game.playerStands();
-        game.dealerTurn();
 
         assertThat(game.determineOutcome())
                 .isEqualByComparingTo(GameOutcome.PLAYER_BEATS_DEALER);
@@ -62,7 +61,6 @@ class GameOutcomeTest {
 
         game.playerHits();
         game.playerStands();
-        game.dealerTurn();
 
         assertThat(game.determineOutcome())
                 .isNotEqualByComparingTo(GameOutcome.PLAYER_WINS_BLACKJACK);
