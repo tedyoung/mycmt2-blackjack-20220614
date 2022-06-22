@@ -68,6 +68,22 @@ class GameOutcomeTest {
                 .isNotEqualByComparingTo(GameOutcome.PLAYER_WINS_BLACKJACK);
     }
 
+    @Test
+    public void standResultsInDealerDrawingCard() throws Exception {
+        Deck dealerBeatsPlayerAfterDrawingAdditionalCardDeck =
+                new StubDeck(Rank.TEN,  Rank.QUEEN,
+                             Rank.NINE, Rank.FIVE,
+                             Rank.SIX);
+        Game game = new Game(dealerBeatsPlayerAfterDrawingAdditionalCardDeck);
+        game.initialDeal();
+
+        game.playerStands();
+
+        assertThat(game.dealerHand().cards())
+                .hasSize(3);
+    }
+
+
 }
 
 
