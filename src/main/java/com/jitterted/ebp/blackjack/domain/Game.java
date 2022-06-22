@@ -10,7 +10,7 @@ public class Game {
     private final Hand dealerHand = new Hand();
     private final Hand playerHand = new Hand();
 
-    private boolean playerDone = false;
+    private boolean gameOver = false;
 
     public Game(Deck deck) {
         this.deck = deck;
@@ -20,15 +20,6 @@ public class Game {
     public Game(Deck deck, GameMonitor gameMonitor) {
         this.deck = deck;
         this.gameMonitor = gameMonitor;
-    }
-
-    public void initialDeal() {
-        dealRoundOfCards();
-        dealRoundOfCards();
-        playerDone = playerHand.hasBlackjack();
-        if (playerDone) {
-            gameMonitor.roundCompleted(this);
-        }
     }
 
     private void dealRoundOfCards() {
@@ -81,21 +72,31 @@ public class Game {
 
 
     public boolean isPlayerDone() {
-        return playerDone;
+        return gameOver;
+    }
+
+
+    public void initialDeal() {
+        dealRoundOfCards();
+        dealRoundOfCards();
+        updateGameOverStateTo(playerHand.hasBlackjack());
     }
 
     public void playerHits() {
         playerHand.drawFrom(deck);
-        playerDone = playerHand.isBusted();
-        if (playerDone) {
-            gameMonitor.roundCompleted(this);
-        }
+        updateGameOverStateTo(playerHand.isBusted());
     }
 
     public void playerStands() {
-        playerDone = true;
         dealerTurn();
-        gameMonitor.roundCompleted(this);
+        updateGameOverStateTo(true);
+    }
+
+    private void updateGameOverStateTo(boolean gameOverState) {
+        gameOver = gameOverState;
+        if (gameOver) {
+            gameMonitor.roundCompleted(this);
+        }
     }
 
 }
