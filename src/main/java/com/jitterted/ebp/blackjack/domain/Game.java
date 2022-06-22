@@ -26,6 +26,9 @@ public class Game {
         dealRoundOfCards();
         dealRoundOfCards();
         playerDone = playerHand.hasBlackjack();
+        if (playerDone) {
+            gameMonitor.roundCompleted(this);
+        }
     }
 
     private void dealRoundOfCards() {
